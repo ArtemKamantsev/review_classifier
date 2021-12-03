@@ -4,8 +4,8 @@ from string import Template
 
 from joblib import load
 
-LATEST_VECTORIZER_PATH_TEMPLATE = Template('$working_directory/models/vectorizer_17.sav')
-LATEST_MODEL_PATH_TEMPLATE = Template('$working_directory/models/model_17.sav')
+LATEST_VECTORIZER_PATH_TEMPLATE = Template('$working_directory/models/vectorizer.sav')
+LATEST_MODEL_PATH_TEMPLATE = Template('$working_directory/models/model.sav')
 
 classes_mapping = {
     0: 'NEGATIVE',
