@@ -3,9 +3,11 @@ import sys
 from string import Template
 
 from joblib import load
+from service.utils import load_count_vectorizer
 
-LATEST_VECTORIZER_PATH_TEMPLATE = Template('$working_directory/models/vectorizer.sav')
-LATEST_MODEL_PATH_TEMPLATE = Template('$working_directory/models/model.sav')
+VECTORIZER_PATH_TEMPLATE = Template('$working_directory/models/vectorizer.sav')
+VECTORIZER_VOCABULARY_PATH_TEMPLATE = Template('$working_directory/models/vocabulary.sav')
+MODEL_PATH_TEMPLATE = Template('$working_directory/models/model.sav')
 
 classes_mapping = {
     0: 'NEGATIVE',
@@ -14,10 +16,11 @@ classes_mapping = {
 
 
 def classify(comment, working_directory):
-    vectorizer_path = LATEST_VECTORIZER_PATH_TEMPLATE.substitute(working_directory=working_directory)
-    model_path = LATEST_MODEL_PATH_TEMPLATE.substitute(working_directory=working_directory)
+    vectorizer_path = VECTORIZER_PATH_TEMPLATE.substitute(working_directory=working_directory)
+    vocabulary_path = VECTORIZER_VOCABULARY_PATH_TEMPLATE.substitute(working_directory=working_directory)
+    model_path = MODEL_PATH_TEMPLATE.substitute(working_directory=working_directory)
 
-    vectorizer = load(vectorizer_path)
+    vectorizer = load_count_vectorizer(vectorizer_path, vocabulary_path)
     model = load(model_path)
 
     comment_vectorized = vectorizer.transform([comment])
