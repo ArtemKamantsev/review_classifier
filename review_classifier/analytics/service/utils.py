@@ -7,7 +7,7 @@ from joblib import load
 from tqdm import tqdm
 
 
-def read_data(path='../local_data/raw'):
+def read_data(path='../../local_data/raw'):
     search_path = os.path.join(path, '*.json')
     data_files_list = glob.glob(search_path)
     data_frame_list = []

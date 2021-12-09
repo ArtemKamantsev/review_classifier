@@ -9,7 +9,7 @@ To be able to run any script from 'analytics' module you should perform followin
 5. Activate environment (Windows)
 ```.\venv\Scripts\activate```
 6. Install dependencies
-```pip install -r requirements.txt ```
+```pip install -r requirements.txt```
 
 # Run api.py
 From 'analytics' folder:
