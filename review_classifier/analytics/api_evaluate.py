@@ -1,16 +1,12 @@
 import argparse
 import sys
 from os.path import splitext
-from string import Template
 
 import pandas as pd
 from joblib import load
 
-from service.utils import load_count_vectorizer
-
-VECTORIZER_PATH_TEMPLATE = Template('$working_directory/models/vectorizer.sav')
-VECTORIZER_VOCABULARY_PATH_TEMPLATE = Template('$working_directory/models/vocabulary.sav')
-MODEL_PATH_TEMPLATE = Template('$working_directory/models/model.sav')
+from service.constants import VECTORIZER_PATH_TEMPLATE, VECTORIZER_VOCABULARY_PATH_TEMPLATE, MODEL_PATH_TEMPLATE
+from service.utils import load_count_vectorizer, print_output
 
 classes_mapping = {
     0: 'NEGATIVE',
@@ -45,16 +41,18 @@ def get_comments_from_path(path):
 
 
 def main(working_directory, comment, path):
+    data = None
+    error = None
     if comment:
-        res = classify([comment], working_directory)[0]
+        data = classify([comment], working_directory)[0]
     else:
         try:
             comment_list = get_comments_from_path(path)
-            res = classify(comment_list, working_directory)
+            data = classify(comment_list, working_directory)
         except Exception as e:
-            res = str(e)
+            error = str(e)
 
-    print(res)
+    print_output(data, error)
 
 
 if __name__ == '__main__':
