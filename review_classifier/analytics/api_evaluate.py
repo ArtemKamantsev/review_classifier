@@ -1,11 +1,12 @@
 import argparse
 import sys
-from os.path import splitext
+from os.path import splitext, exists
 
 import pandas as pd
 from joblib import load
 
-from service.constants import VECTORIZER_PATH_TEMPLATE, VECTORIZER_VOCABULARY_PATH_TEMPLATE, MODEL_PATH_TEMPLATE
+from service.constants import VECTORIZER_PATH_TEMPLATE, VECTORIZER_VOCABULARY_PATH_TEMPLATE, MODEL_PATH_TEMPLATE, \
+    VECTORIZER_DEFAULT_PATH_TEMPLATE, VECTORIZER_DEFAULT_VOCABULARY_PATH_TEMPLATE, MODEL_DEFAULT_PATH_TEMPLATE
 from service.utils import load_count_vectorizer, print_output
 
 classes_mapping = {
@@ -14,10 +15,20 @@ classes_mapping = {
 }
 
 
-def classify(comment_list, working_directory):
+def get_model_paths(working_directory):
     vectorizer_path = VECTORIZER_PATH_TEMPLATE.substitute(working_directory=working_directory)
     vocabulary_path = VECTORIZER_VOCABULARY_PATH_TEMPLATE.substitute(working_directory=working_directory)
     model_path = MODEL_PATH_TEMPLATE.substitute(working_directory=working_directory)
+    if not exists(vectorizer_path) or not exists(vocabulary_path) or not exists(model_path):
+        vectorizer_path = VECTORIZER_DEFAULT_PATH_TEMPLATE.substitute(working_directory=working_directory)
+        vocabulary_path = VECTORIZER_DEFAULT_VOCABULARY_PATH_TEMPLATE.substitute(working_directory=working_directory)
+        model_path = MODEL_DEFAULT_PATH_TEMPLATE.substitute(working_directory=working_directory)
+
+    return vectorizer_path, vocabulary_path, model_path
+
+
+def classify(comment_list, working_directory):
+    vectorizer_path, vocabulary_path, model_path = get_model_paths(working_directory)
 
     vectorizer = load_count_vectorizer(vectorizer_path, vocabulary_path)
     model = load(model_path)
