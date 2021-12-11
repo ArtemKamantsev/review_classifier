@@ -11,8 +11,13 @@ To be able to run any script from 'analytics' module you should perform followin
 6. Install dependencies
 ```pip install -r requirements.txt```
 
-# Run api.py
-From 'analytics' folder:
+# Run api_evaluate.py
+Following commands should be run from 'analytics' folder.
+to recognize single string:
 ```
-.\venv\Scripts\python.exe .\api.py -c "The best app!"
+.\venv\Scripts\python.exe .\api_evaluate.py -c "The best app!"
+```
+to recognize '....csv' file:
+```
+.\venv\Scripts\python.exe .\api_evaluate.py -p path_to_file\file_name.csv
 ```
