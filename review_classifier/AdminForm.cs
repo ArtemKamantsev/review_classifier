@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace review_classifier
@@ -18,6 +11,8 @@ namespace review_classifier
         {
             InitializeComponent();
         }
+
+        // textbox1 - поле с комментом
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -30,6 +25,11 @@ namespace review_classifier
             string path = directoryInfo2.FullName + @"\analytics\api.py";
 
             start.Arguments = string.Format("{0} -c \"{1}\"", path, "worst app!");
+            // -c - строка
+            // -р - путь к файлу абсолютный
+
+            // train
+            // -d - данные от скрипта Димы
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             using (Process process = Process.Start(start))
@@ -41,24 +41,19 @@ namespace review_classifier
                 }
             }
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            // получаем выбранный файл
+            string filename = openFileDialog1.FileName; // полный путь
+            // читаем файл в строку
+            //string fileText = File.ReadAllText(filename);
+            //textBox1.Text = fileText;
+            //MessageBox.Show("Файл открыт");
+        }
     }
 }
-//ProcessStartInfo start = new ProcessStartInfo();
-//start.FileName = @"C:\Users\Andrey\Desktop\c++_projects\4_class\review_classifier\review_classifier\analytics\venv\Scripts\python.exe";
-
-//string curDir = Directory.GetCurrentDirectory();
-//DirectoryInfo directoryInfo = Directory.GetParent(curDir);
-//DirectoryInfo directoryInfo2 = Directory.GetParent(directoryInfo.FullName);
-//string path = directoryInfo2.FullName + @"\analytics\api.py";
-
-//start.Arguments = string.Format("{0} -c \"{1}\"", path, "worst app!");
-//start.UseShellExecute = false;
-//start.RedirectStandardOutput = true;
-//using (Process process = Process.Start(start))
-//{
-//    using (StreamReader reader = process.StandardOutput)
-//    {
-//        string result = reader.ReadToEnd();
-//        MessageBox.Show(result);
-//    }
-//}
