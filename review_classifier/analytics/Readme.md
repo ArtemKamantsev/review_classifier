@@ -11,8 +11,30 @@ To be able to run any script from 'analytics' module you should perform followin
 6. Install dependencies
 ```pip install -r requirements.txt```
 
-# Run api.py
-From 'analytics' folder:
+# API
+Each api method prints to standard output json-formatted string of following format:
 ```
-.\venv\Scripts\python.exe .\api.py -c "The best app!"
+{
+    "data": output or null,
+    "error": string or null,
+}
 ```
+where 'output' value differs for each of methods.
+
+Following commands should be run from 'analytics' folder.
+## Run api_evaluate.py
+### Recognize single string:
+```
+.\venv\Scripts\python.exe .\api_evaluate.py -c "The best app!"
+```
+Output: single string ('NEGATIVE' or 'POSITIVE')
+### Recognize '....csv' file:
+```
+.\venv\Scripts\python.exe .\api_evaluate.py -p path_to_file\file_name.csv
+```
+Output: array of strings (each equal to 'NEGATIVE' or 'POSITIVE')
+## Run api_evaluate.py
+```
+.\venv\Scripts\python.exe .\api_train.py -d "[{\"text\": \"the worst app\", \"score\": 1},{\"text\": \"the best app\", \"score\": 5}]"
+```
+Output: result of trained model evaluation metrics

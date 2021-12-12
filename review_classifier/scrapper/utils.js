@@ -8,14 +8,13 @@ const https = require('https');
 http.globalAgent.maxSockets = 1;
 https.globalAgent.maxSockets = 1;
 
-const reviewsCallAmount = 1500;
+const reviewsCallAmount = 600;
 const reviewsSaveAmount = 100000;
 const dynamicParams = {stopProcessing: false};
 
 const _callList = async (params) => {
   try {
-    const data = await gPlay.list({throttle: 5, ...params});
-    return data.map(app => app.appId);
+    return await gPlay.list({throttle: 5, ...params});
   } catch (e) {
     return [];
   }
@@ -33,7 +32,7 @@ const _callReviews = async (params) => {
 const _callReviewsWithPagination = async (params) => {
   try {
     const data = await gPlay.reviews(params);
-    const reviews = data.data.map(review => ({title: review.title, text: review.text, score: review.score}));
+    const reviews = data.data.map(review => ({text: review.text, score: review.score}));
     const nextToken = data.nextPaginationToken;
     return {reviews, nextToken};
   } catch (e) {
@@ -45,16 +44,61 @@ const getAppIds = async (categories = Object.values(gPlay.category), collections
   const result = [];
   for (let categoryIndex = 0; categoryIndex < categories.length; ++categoryIndex) {
     for (let collectionIndex = 0; collectionIndex < collections.length; ++collectionIndex) {
-      result.push(...await _callList({collection: collections[collectionIndex], num: Number.MAX_SAFE_INTEGER}));
+      const apps = await _callList({
+        collection: collections[collectionIndex],
+        category: categories[categoryIndex],
+        num: Number.MAX_SAFE_INTEGER
+      });
+
+      result.push(...apps.map(app => app.appId));
     }
   }
   return [...new Set(result)];
 };
 
-const getReviews = async (appIds = []) => {
+const getAppNames = async (categories = Object.values(gPlay.category), collections = Object.values(gPlay.collection)) => {
   const result = [];
-  for (let i = 0; i < appIds.length; ++i) {
-    result.push(...await _callReviews({appId: appIds[i], num: Number.MAX_SAFE_INTEGER}));
+  for (let categoryIndex = 0; categoryIndex < categories.length; ++categoryIndex) {
+    for (let collectionIndex = 0; collectionIndex < collections.length; ++collectionIndex) {
+      const apps = await _callList({
+        collection: collections[collectionIndex],
+        category: categories[categoryIndex],
+        num: Number.MAX_SAFE_INTEGER
+      });
+
+      result.push(...apps.map(app => app.title));
+    }
+  }
+  return [...new Set(result)];
+};
+
+const getReviews = async (appIds = [], timeFinish = Number.MAX_SAFE_INTEGER) => {
+  const result = [];
+
+  const appMapping = appIds.map(appId => ({appId, token: true}));
+
+  let stopCounter = 0;
+  while (stopCounter !== appMapping.length) {
+    stopCounter = 0
+    for (const app of appMapping) {
+      if (!app.token) {
+        ++stopCounter;
+        continue;
+      }
+
+      const {reviews, nextToken} = await _callReviewsWithPagination({
+        appId: app.appId,
+        num: reviewsCallAmount,
+        nextPaginationToken: app.token === true ? null : app.token
+      });
+      app.token = nextToken;
+
+      result.push(...reviews);
+
+      if (Date.now() > timeFinish) {
+        return result;
+      }
+    }
   }
   return result;
 };
@@ -115,7 +159,20 @@ const processingReviews = async (fetchAppIds = false, appIdsFile = "appsIds.json
   await fs.promises.writeFile(`./results/result${iterationsCounter + 1}.json`, JSON.stringify(result));
 };
 
+const returnValue = (data, error = '') => {
+  return console.log(JSON.stringify({data, error}));
+};
+
+const getInputParams = () => {
+  return process.argv.slice(2);
+};
+
 module.exports = {
   getAllReviews,
   processingReviews,
+  returnValue,
+  getInputParams,
+  getAppIds,
+  getAppNames,
+  getReviews,
 };

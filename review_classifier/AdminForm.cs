@@ -22,7 +22,7 @@ namespace review_classifier
             DirectoryInfo directoryInfo = Directory.GetParent(curDir);
             DirectoryInfo directoryInfo2 = Directory.GetParent(directoryInfo.FullName);
             start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
-            string path = directoryInfo2.FullName + @"\analytics\api.py";
+            string path = directoryInfo2.FullName + @"\analytics\api_evaluate.py";
 
             start.Arguments = string.Format("{0} -c \"{1}\"", path, "worst app!");
             // -c - строка
