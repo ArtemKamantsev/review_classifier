@@ -1,25 +1,54 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace review_classifier
 {
     public partial class AdminForm : Form
     {
+        List<string> res;
+
         public AdminForm()
         {
             InitializeComponent();
         }
 
+        // "[{\"text\": \"the worst app\", \"score\": 1},{\"text\": \"the best app\", \"score\": 5}]"
+
         private void button2_Click(object sender, EventArgs e)
+        {
+            res = new List<string>();
+            StartPython(textBox1.Text, "c");
+
+            MessageBox.Show(res[res.Count - 1]);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            res = new List<string>();
+            openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            string filename = openFileDialog1.FileName; // полный путь
+
+            StartPython(filename, "p");
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //res = new List<string>();
+            //StartPython(
+            //    "[{\"text\": \"the worst app\", \"score\": 1},{\"text\": \"the best app\", \"score\": 5}]",
+            //    "d");
+
+            // TODO: Какой вывод?
+        }
+
+        private void StartPython(string row, string letter)
         {
             ProcessStartInfo start = new ProcessStartInfo();
 
@@ -29,36 +58,53 @@ namespace review_classifier
             start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
             string path = directoryInfo2.FullName + @"\analytics\api_evaluate.py";
 
-            start.Arguments = string.Format("{0} -c \"{1}\"", path, "worst app!");
+            start.Arguments = string.Format("{0} -{2} \"{1}\"", path, row, letter);
+            // -c - строка
+            // -р - путь к файлу абсолютный
+            // train
+            // -d - данные от скрипта Димы
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
+            string result;
             using (Process process = Process.Start(start))
-            {
                 using (StreamReader reader = process.StandardOutput)
-                {
-                    string result = reader.ReadToEnd();
-                    MessageBox.Show(result);
-                }
-            }
+                    result = reader.ReadToEnd();
+
+            dynamic stuff = JsonConvert.DeserializeObject(result);
+
+            if (stuff.data != null) res.Add(stuff.data.ToString());
+            else res.Add("Error: " + stuff.error.ToString());
         }
     }
 }
 //ProcessStartInfo start = new ProcessStartInfo();
-//start.FileName = @"C:\Users\Andrey\Desktop\c++_projects\4_class\review_classifier\review_classifier\analytics\venv\Scripts\python.exe";
 
 //string curDir = Directory.GetCurrentDirectory();
 //DirectoryInfo directoryInfo = Directory.GetParent(curDir);
 //DirectoryInfo directoryInfo2 = Directory.GetParent(directoryInfo.FullName);
-//string path = directoryInfo2.FullName + @"\analytics\api.py";
+//start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
+//string path = directoryInfo2.FullName + @"\analytics\api_evaluate.py";
 
 //start.Arguments = string.Format("{0} -c \"{1}\"", path, "worst app!");
+//// -c - строка
+//// -р - путь к файлу абсолютный
+
+//// train
+//// -d - данные от скрипта Димы
 //start.UseShellExecute = false;
 //start.RedirectStandardOutput = true;
+//string result;
 //using (Process process = Process.Start(start))
 //{
 //    using (StreamReader reader = process.StandardOutput)
 //    {
-//        string result = reader.ReadToEnd();
-//        MessageBox.Show(result);
+//        result = reader.ReadToEnd();
+//        //MessageBox.Show(result);
 //    }
 //}
+
+////dynamic stuff = JsonConvert.DeserializeObject("{ 'Name': 'Jon Smith', 'Address': { 'City': 'New York', 'State': 'NY' }, 'Age': 42 }");
+//dynamic stuff = JsonConvert.DeserializeObject(result);
+
+//string name = stuff.data;
+//string error = stuff.error;
