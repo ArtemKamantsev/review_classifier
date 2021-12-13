@@ -33,8 +33,8 @@ Output: single string ('NEGATIVE' or 'POSITIVE')
 .\venv\Scripts\python.exe .\api_evaluate.py -p path_to_file\file_name.csv
 ```
 Output: array of strings (each equal to 'NEGATIVE' or 'POSITIVE')
-## Run api_evaluate.py
+## Run api_train.py
 ```
 .\venv\Scripts\python.exe .\api_train.py -d "[{\"text\": \"the worst app\", \"score\": 1},{\"text\": \"the best app\", \"score\": 5}]"
 ```
-Output: result of trained model evaluation metrics
+Output: string with result of trained model evaluation metrics

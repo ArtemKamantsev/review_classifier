@@ -1,12 +1,12 @@
 import numpy as np
 from joblib import dump
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import recall_score, precision_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 
 from service.constants import RANDOM_STATE, TEST_SET_SIZE, MIN_TEST_ITEMS_COUNT, VECTORIZER_PATH_TEMPLATE, \
-    VECTORIZER_VOCABULARY_PATH_TEMPLATE, MODEL_PATH_TEMPLATE
+    VECTORIZER_PARAMS_PATH_TEMPLATE, MODEL_PATH_TEMPLATE
 
 TEXT_COLUMN_KEY = 'text'
 SCORE_COLUMN_KEY = 'score'
@@ -20,13 +20,13 @@ def train_model(df, working_directory):
         raise Exception('Data should contain at least 1 entry')
 
     path_vectorizer = VECTORIZER_PATH_TEMPLATE.substitute(working_directory=working_directory)
-    path_vectorizer_vocabulary = VECTORIZER_VOCABULARY_PATH_TEMPLATE.substitute(working_directory=working_directory)
+    path_vectorizer_params = VECTORIZER_PARAMS_PATH_TEMPLATE.substitute(working_directory=working_directory)
     path_model = MODEL_PATH_TEMPLATE.substitute(working_directory=working_directory)
 
     labels = (df['score'] >= 3).astype(np.int32).values
 
     min_df = min(round(len(df) * 0.0001), 1000)  # not greater when 1000
-    vectorizer = CountVectorizer(
+    vectorizer = TfidfVectorizer(
         strip_accents='unicode',
         lowercase=True,
         stop_words='english',
@@ -38,7 +38,12 @@ def train_model(df, working_directory):
     dump(vectorizer, path_vectorizer)
 
     text_vectorized = vectorizer.fit_transform(df['text'])
-    dump(vectorizer.vocabulary_, path_vectorizer_vocabulary)
+
+    vectorizer_params = {
+        'vocabulary_': vectorizer.vocabulary_,
+        'idf_': vectorizer.idf_,
+    }
+    dump(vectorizer_params, path_vectorizer_params)
 
     if len(df) * TEST_SET_SIZE >= MIN_TEST_ITEMS_COUNT:
         x_train, x_test, y_train, y_test = train_test_split(text_vectorized, labels, test_size=TEST_SET_SIZE,

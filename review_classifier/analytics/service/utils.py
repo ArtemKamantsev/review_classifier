@@ -1,6 +1,7 @@
 import glob
-import os
 import json
+import os
+
 import numpy as np
 import pandas as pd
 from joblib import load
@@ -28,6 +29,15 @@ def load_count_vectorizer(vectorizer_path, vocabulary_path):
     vectorizer = load(vectorizer_path)
     vocabulary = load(vocabulary_path)
     vectorizer.vocabulary_ = vocabulary
+
+    return vectorizer
+
+
+def load_tf_idf_vectorizer(vectorizer_path, vectorizer_params_path):
+    vectorizer = load(vectorizer_path)
+    vectorizer_params = load(vectorizer_params_path)
+    vectorizer.vocabulary_ = vectorizer_params['vocabulary_']
+    vectorizer.idf_ = vectorizer_params['idf_']
 
     return vectorizer
 
