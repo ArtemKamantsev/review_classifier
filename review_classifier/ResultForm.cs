@@ -65,7 +65,6 @@ namespace review_classifier
         {
             Enabled = false;
 
-            List<string> res = new List<string>();
             StartPython(
             row,
             "d", "api_train");
@@ -140,16 +139,24 @@ namespace review_classifier
             start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
             string path = directoryInfo2.FullName + @"\analytics\" + file + ".py";
 
-            start.Arguments = string.Format("{0} -{2} \"{1}\"", path, row, letter);
+            start.Arguments = string.Format("{0} -{1}", path, letter);
             // -c - строка из текстового поля
             // -р - путь к файлу абсолютный
             // -d - данные от скрипта Димы
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
+            start.RedirectStandardInput = true;
             string result;
             using (Process process = Process.Start(start))
-            using (StreamReader reader = process.StandardOutput)
-                result = reader.ReadToEnd();
+            {
+                StreamWriter sq = process.StandardInput;
+                char[] charsToTrim = { '\n', ' ', '\r' };
+                row = row.Replace("\r", String.Empty);
+                row = row.Replace("\n", String.Empty);
+                sq.WriteLine(row);
+                using (StreamReader reader = process.StandardOutput)
+                    result = reader.ReadToEnd();
+            }
 
             dynamic stuff = JsonConvert.DeserializeObject(result);
 
