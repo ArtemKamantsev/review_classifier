@@ -59,4 +59,3 @@ namespace review_classifier
         }
     }
 }
-//https://docs.microsoft.com/ru-ru/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-6.0
