@@ -16,12 +16,9 @@ def parse_data(data_str='[{"text": "the worst app", "score": 1},{"text": "the be
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser('Review classifier')
-    group = parser.add_argument('-d', required=False, type=str)
-    args = parser.parse_args()
-
     working_directory = sys.path[0]
-    input_data = args.d
+    input_data = input()
+    print(input_data)
 
     result_data = None
     error = None
