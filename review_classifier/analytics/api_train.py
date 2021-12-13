@@ -18,7 +18,6 @@ def parse_data(data_str='[{"text": "the worst app", "score": 1},{"text": "the be
 if __name__ == '__main__':
     working_directory = sys.path[0]
     input_data = input()
-    print(input_data)
 
     result_data = None
     error = None
