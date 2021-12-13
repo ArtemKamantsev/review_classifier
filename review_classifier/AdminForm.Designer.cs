@@ -34,11 +34,12 @@ namespace review_classifier
             this.button3 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(645, 34);
+            this.button2.Location = new System.Drawing.Point(695, 160);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(167, 57);
             this.button2.TabIndex = 1;
@@ -48,7 +49,7 @@ namespace review_classifier
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(19, 106);
+            this.button4.Location = new System.Drawing.Point(69, 232);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(620, 75);
             this.button4.TabIndex = 3;
@@ -58,7 +59,7 @@ namespace review_classifier
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(645, 115);
+            this.button3.Location = new System.Drawing.Point(695, 241);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(167, 57);
             this.button3.TabIndex = 4;
@@ -67,7 +68,7 @@ namespace review_classifier
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(19, 25);
+            this.textBox1.Location = new System.Drawing.Point(69, 151);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -78,12 +79,23 @@ namespace review_classifier
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(161, 38);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(628, 44);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "model training";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // AdminForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(1042, 611);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button4);
@@ -107,5 +119,6 @@ namespace review_classifier
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Button button1;
     }
 }
