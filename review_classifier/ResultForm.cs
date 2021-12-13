@@ -1,14 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace review_classifier
@@ -28,56 +22,64 @@ namespace review_classifier
 
         private void button1_Click(object sender, EventArgs e)
         {
-            switch (listBox1.Visible)
+            Enabled = false;
+
+            listBox1.Visible = true;
+
+            SendRequest("getApps", comboBox1.Text);
+
+            if (row.Contains("Error"))
             {
-                case true:
-                    SendRequest("getReviews", comboBox1.Text + " 20");
-                    button2.Enabled = true;
-
-                    if (row.Contains("Error"))
-                    {
-                        MessageBox.Show(row);
-                        return;
-                    }
-
-                    dynamic stuf = JsonConvert.DeserializeObject(row);
-                    foreach (var item in stuf)
-                        reviews.Add(item.ToString());
-
-                    //TODO: запись в бд
-
-                    break;
-                case false:
-                    listBox1.Visible = true;
-
-                    SendRequest("getApps", comboBox1.Text);
-
-                    if (row.Contains("Error"))
-                    {
-                        MessageBox.Show(row);
-                        return;
-                    }
-
-                    dynamic stu = JsonConvert.DeserializeObject(row);
-                    foreach (var item in stu)
-                    {
-                        apps.Add(item.ToString());
-                        listBox1.Items.Add(item.ToString());
-                    }
-
-                    listBox1.SelectedIndex = 0;
-                    break;
+                MessageBox.Show(row);
+                return;
             }
+
+            dynamic stu = JsonConvert.DeserializeObject(row);
+            foreach (var item in stu)
+            {
+                apps.Add(item.ToString());
+                listBox1.Items.Add(item.ToString());
+            }
+
+            listBox1.SelectedIndex = 0;
+
+            SendRequest("getReviews", comboBox1.Text + " 20");
+            button2.Enabled = true;
+
+            if (row.Contains("Error"))
+            {
+                MessageBox.Show(row);
+                return;
+            }
+
+            dynamic stuf = JsonConvert.DeserializeObject(row);
+            foreach (var item in stuf)
+                reviews.Add(item.ToString());
+
+            //TODO: запись в бд
+
+            Enabled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            Enabled = false;
+
             List<string> res = new List<string>();
             StartPython(
             row,
             "d", "api_train");
 
             MessageBox.Show(res[0]);
+
+            Enabled = true;
+        }
+
+        private void ResultForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            StartForm form = new StartForm();
+            form.Show();
+            Hide();
         }
 
         private void ResultForm_Shown(object sender, EventArgs e)

@@ -18,6 +18,8 @@ namespace review_classifier
 
         private void button2_Click(object sender, EventArgs e)
         {
+            Enabled = false;
+            
             res = new List<string>();
             StartPython(textBox1.Text, "c", "api_evaluate");
 
@@ -25,10 +27,14 @@ namespace review_classifier
                 MessageBox.Show(res[0]);
             else
                 listBox1.Items.Add(res[0]);
+
+            Enabled = true;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+            Enabled = false;
+            
             res = new List<string>();
             openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
 
@@ -49,19 +55,8 @@ namespace review_classifier
             //else
             for (int i = 0; i < res.Count; i++)
                     listBox1.Items.Add(res[i]);
-        }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            res = new List<string>();
-            StartPython(
-                "[{\\\"text\\\": \\\"the worst app\\\", \\\"score\\\": 1},{\\\"text\\\": \\\"the best app\\\", \\\"score\\\": 5}]",
-                "d", "api_train");
-
-            //if (res[0].Contains("Error"))
-                MessageBox.Show(res[0]);
-            //else
-                //listBox1.Items.Add(res[0]);
+            Enabled = true;
         }
 
         private void StartPython(string row, string letter, string file)
@@ -95,6 +90,13 @@ namespace review_classifier
             //else if (stuff.data.Count > 1)
             //    for (int i = 0; i < stuff.data.Count; i++)
             //        res.Add(stuff.data[i].ToString());
+        }
+
+        private void AdminForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            StartForm form = new StartForm();
+            form.Show();
+            Hide();
         }
     }
 }
