@@ -6,7 +6,7 @@ using System.IO;
 using System.Windows.Forms;
 using MongoDB.Bson;
 using MongoDB.Driver;
-using System.Threading.Tasks;
+using System.Linq;
 
 namespace review_classifier
 {
@@ -31,25 +31,6 @@ namespace review_classifier
         {
             Enabled = false;
 
-            listBox1.Visible = true;
-
-            SendRequest("getApps", comboBox1.Text);
-
-            if (row.Contains("Error"))
-            {
-                MessageBox.Show(row);
-                return;
-            }
-
-            dynamic stu = JsonConvert.DeserializeObject(row);
-            foreach (var item in stu)
-            {
-                apps.Add(item.ToString());
-                listBox1.Items.Add(item.ToString());
-            }
-
-            listBox1.SelectedIndex = 0;
-
             SendRequest("getReviews", comboBox1.Text + " 100");
             button2.Enabled = true;
 
@@ -63,6 +44,8 @@ namespace review_classifier
             foreach (var item in stuf)
                 reviews.Add(item.ToString());
 
+            var doc = new BsonDocument();
+            var t = m.DeleteMany(doc).DeletedCount;
             SaveData(reviews);
 
             Enabled = true;
@@ -115,6 +98,32 @@ namespace review_classifier
             }
 
             comboBox1.SelectedIndex = 0;
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Enabled = false;
+
+            listBox1.Visible = true;
+            
+            SendRequest("getApps", comboBox1.Text);
+
+            if (row.Contains("Error"))
+            {
+                MessageBox.Show(row);
+                return;
+            }
+
+            dynamic stu = JsonConvert.DeserializeObject(row);
+            foreach (var item in stu)
+            {
+                apps.Add(item.ToString());
+                listBox1.Items.Add(item.ToString());
+            }
+
+            listBox1.SelectedIndex = 0;
+
+            Enabled = true;
         }
 
         private void SendRequest(string filename, string arguments)
@@ -197,15 +206,3 @@ namespace review_classifier
         }
     }
 }
-//var document = new BsonDocument
-//                {
-//                    { "Наименование", text1 },
-//                    { "Ед_изм", text2 },
-//                    { "Кол", text3 },
-//                    { "Цена", text4 },
-//                    { "Сумма", text5 }
-//                };
-//await mCalculation.InsertOneAsync(document);
-//var doc = await mClient.Find(new BsonDocument()).ToListAsync();
-//mClient.InsertOne(Client);
-//await model.InsertOneAsync(request);
