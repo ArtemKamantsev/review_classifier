@@ -4,11 +4,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using System.Threading.Tasks;
 
 namespace review_classifier
 {
     public partial class ResultForm : Form
     {
+        private readonly IMongoCollection<BsonDocument> m;
+
         string row;
         List<string> categories = new List<string>(),
             apps = new List<string>(),
@@ -18,6 +23,8 @@ namespace review_classifier
         public ResultForm()
         {
             InitializeComponent();
+
+            m = new MongoClient("mongodb://localhost:27017").GetDatabase("first").GetCollection<BsonDocument>("cFirst");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -43,7 +50,7 @@ namespace review_classifier
 
             listBox1.SelectedIndex = 0;
 
-            SendRequest("getReviews", comboBox1.Text + " 20");
+            SendRequest("getReviews", comboBox1.Text + " 100");
             button2.Enabled = true;
 
             if (row.Contains("Error"))
@@ -56,7 +63,7 @@ namespace review_classifier
             foreach (var item in stuf)
                 reviews.Add(item.ToString());
 
-            //TODO: запись в бд
+            SaveData(reviews);
 
             Enabled = true;
         }
@@ -65,9 +72,18 @@ namespace review_classifier
         {
             Enabled = false;
 
+            string resultus = "[";
+            var doc = m.Find(new BsonDocument()).ToList();
+            for (int i = 0; i < doc.Count; i++)
+            {
+                resultus += doc[i].GetValue("data").ToString() == "" ? doc[i].GetValue("error").ToString() : doc[i].GetValue("data").ToString();
+                if (i < doc.Count - 1)
+                    resultus += ",";
+            }
+            resultus += "]";
+
             StartPython(
-            row,
-            "d", "api_train");
+            resultus, "d", "api_train");
 
             MessageBox.Show(res[0]);
 
@@ -164,5 +180,32 @@ namespace review_classifier
                 res.Add("Error: " + stuff.error.ToString());
             else res.Add(stuff.data.ToString());
         }
+
+        private void SaveData(List<string> revs)
+        {
+            List<BsonDocument> q = new List<BsonDocument>();
+            foreach (var item in revs)
+            {
+                var document = new BsonDocument
+                {
+                    { "data", item.Contains("Error, ") ? "": item },
+                    { "error", item.Contains("Error, ") ? item.Replace("Error, ", string.Empty): "" }
+                };
+                q.Add(document);
+            }
+            m.InsertMany(q);
+        }
     }
 }
+//var document = new BsonDocument
+//                {
+//                    { "Наименование", text1 },
+//                    { "Ед_изм", text2 },
+//                    { "Кол", text3 },
+//                    { "Цена", text4 },
+//                    { "Сумма", text5 }
+//                };
+//await mCalculation.InsertOneAsync(document);
+//var doc = await mClient.Find(new BsonDocument()).ToListAsync();
+//mClient.InsertOne(Client);
+//await model.InsertOneAsync(request);
