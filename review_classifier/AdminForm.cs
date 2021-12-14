@@ -33,28 +33,33 @@ namespace review_classifier
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Enabled = false;
-            
             res = new List<string>();
-            openFileDialog1.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+            openFileDialog1.Filter = "Text files(*.csv)|*.csv";
 
             if (openFileDialog1.ShowDialog() == DialogResult.Cancel)
                 return;
             string filename = openFileDialog1.FileName; // полный путь
 
+            Enabled = false;
+
             StartPython(filename, "p", "api_evaluate");
 
-            dynamic stuff = JsonConvert.DeserializeObject(res[0]);
-            res.Clear();
+            if (res[0].Contains("Error"))
+                MessageBox.Show(res[0]);
+            else
+            {
+                dynamic stuff = JsonConvert.DeserializeObject(res[0]);
+                res.Clear();
 
-            for (int i = 0; i < stuff.Count; i++)
-                res.Add(stuff[i].ToString());
+                for (int i = 0; i < stuff.Count; i++)
+                    res.Add(stuff[i].ToString());
 
-            //if (res[0].Contains("Error"))
-            //    MessageBox.Show(res[0]);
-            //else
-            for (int i = 0; i < res.Count; i++)
+                //if (res[0].Contains("Error"))
+                //    MessageBox.Show(res[0]);
+                //else
+                for (int i = 0; i < res.Count; i++)
                     listBox1.Items.Add(res[i]);
+            }
 
             Enabled = true;
         }
@@ -87,9 +92,6 @@ namespace review_classifier
             if (stuff.data == null)
                 res.Add("Error: " + stuff.error.ToString());
             else res.Add(stuff.data.ToString());
-            //else if (stuff.data.Count > 1)
-            //    for (int i = 0; i < stuff.data.Count; i++)
-            //        res.Add(stuff.data[i].ToString());
         }
 
         private void AdminForm_FormClosing(object sender, FormClosingEventArgs e)

@@ -96,6 +96,7 @@ namespace review_classifier
             this.Name = "AdminForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Evaluate model";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AdminForm_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
