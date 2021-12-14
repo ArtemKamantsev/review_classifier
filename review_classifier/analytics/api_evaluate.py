@@ -7,7 +7,7 @@ from joblib import load
 
 from service.constants import VECTORIZER_PATH_TEMPLATE, VECTORIZER_PARAMS_PATH_TEMPLATE, MODEL_PATH_TEMPLATE, \
     VECTORIZER_DEFAULT_PATH_TEMPLATE, VECTORIZER_PARAMS_DEFAULT_PATH_TEMPLATE, MODEL_DEFAULT_PATH_TEMPLATE
-from service.utils import load_tf_idf_vectorizer, print_output
+from service.utils import load_count_vectorizer, print_output
 
 classes_mapping = {
     0: 'NEGATIVE',
@@ -30,7 +30,7 @@ def get_model_paths(working_directory):
 def classify(comment_list, working_directory):
     vectorizer_path, vectorizer_params_path, model_path = get_model_paths(working_directory)
 
-    vectorizer = load_tf_idf_vectorizer(vectorizer_path, vectorizer_params_path)
+    vectorizer = load_count_vectorizer(vectorizer_path, vectorizer_params_path)
     model = load(model_path)
 
     comment_vectorized = vectorizer.transform(comment_list)
