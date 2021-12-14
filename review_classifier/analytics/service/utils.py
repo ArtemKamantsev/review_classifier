@@ -25,10 +25,10 @@ def read_data(path='../../../local_data/raw'):
     return df
 
 
-def load_count_vectorizer(vectorizer_path, vocabulary_path):
+def load_count_vectorizer(vectorizer_path, vectorizer_params_path):
     vectorizer = load(vectorizer_path)
-    vocabulary = load(vocabulary_path)
-    vectorizer.vocabulary_ = vocabulary
+    vectorizer_params = load(vectorizer_params_path)
+    vectorizer.vocabulary_ = vectorizer_params['vocabulary_']
 
     return vectorizer
 

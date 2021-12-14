@@ -1,6 +1,6 @@
 import numpy as np
 from joblib import dump
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import recall_score, precision_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
@@ -26,14 +26,14 @@ def train_model(df, working_directory):
     labels = (df['score'] >= 3).astype(np.int32).values
 
     min_df = min(round(len(df) * 0.0001), 1000)  # not greater when 1000
-    vectorizer = TfidfVectorizer(
-        strip_accents='unicode',
-        lowercase=True,
-        stop_words='english',
-        token_pattern=r'(?u)(\b[a-z]{2,}\b|[\u263a-\U0001f645])',
-        ngram_range=(1, 2),
-        min_df=min_df,
-        binary=True
+    vectorizer = CountVectorizer(
+                       strip_accents = 'unicode',
+                       lowercase = True,
+                       stop_words = 'english',
+                       token_pattern=r'(?u)(\b[a-z]{2,}\b|[\u263a-\U0001f645])',
+                       ngram_range=(1, 2),
+                       min_df = min_df,
+                       binary=True
     )
     dump(vectorizer, path_vectorizer)
 
@@ -41,7 +41,6 @@ def train_model(df, working_directory):
 
     vectorizer_params = {
         'vocabulary_': vectorizer.vocabulary_,
-        'idf_': vectorizer.idf_,
     }
     dump(vectorizer_params, path_vectorizer_params)
 
