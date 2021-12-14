@@ -115,6 +115,7 @@ namespace review_classifier
             }
 
             dynamic stu = JsonConvert.DeserializeObject(row);
+            listBox1.Items.Clear();
             foreach (var item in stu)
             {
                 apps.Add(item.ToString());
@@ -154,8 +155,6 @@ namespace review_classifier
 
         private void StartPython(string row, string letter, string file)
         {
-            listBox1.Items.Clear();
-
             ProcessStartInfo start = new ProcessStartInfo();
 
             string curDir = Directory.GetCurrentDirectory();
