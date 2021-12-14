@@ -93,6 +93,7 @@ namespace review_classifier
             this.Name = "ResultForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Train model";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ResultForm_FormClosing);
             this.Shown += new System.EventHandler(this.ResultForm_Shown);
             this.ResumeLayout(false);
