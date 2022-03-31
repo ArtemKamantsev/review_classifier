@@ -74,18 +74,3 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     main(sys.path[0], args.c, args.p)
-
-# USAGE FROM C#
-# ProcessStartInfo start = new ProcessStartInfo();
-# start.FileName = "D:\\Education\\Programming\\review_classifier\\analytics\\venv\\Scripts\\python.exe";
-# start.Arguments = string.Format("{0} -c \"{1}\"", "D:\\Education\\Programming\\review_classifier\\analytics\\api.py", "worst app!");
-# start.UseShellExecute = false;
-# start.RedirectStandardOutput = true;
-# using(Process process = Process.Start(start))
-# {
-#     using(StreamReader reader = process.StandardOutput)
-#     {
-#         string result = reader.ReadToEnd();
-#         MessageBox.Show(result);
-#     }
-# }
