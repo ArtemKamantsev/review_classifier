@@ -10,6 +10,11 @@ To be able to run any script from 'analytics' module you should perform followin
 ```.\venv\Scripts\activate```
 6. Install dependencies
 ```pip install -r requirements.txt```
+7. Install IPython kernel
+```python -m ipykernel install --user --name review_classifier –display-name “review_classifier”```
+8. To use Jupyter Notebooks: run any cell of any of Jupyter Notebooks and ensure:
+   1. Click "Managed: http..." -> Configure Jupyter Server -> Python Interpreter in set to analytics\venv\Scripts\python.exe. If change was made - restart server ("Jupyter" window -> stop icon -> run any cell)
+   2. In the box next to "Managed: http..." ensure "review_classifier" is selected. If change was made - restart kernel (button in top navigate panel)
 
 # API
 Each api method prints to standard output json-formatted string of following format:
