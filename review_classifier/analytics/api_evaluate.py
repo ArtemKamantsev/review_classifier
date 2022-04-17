@@ -1,5 +1,3 @@
-import argparse
-import sys
 from os.path import splitext, exists
 
 import pandas as pd
@@ -51,26 +49,26 @@ def get_comments_from_path(path):
     return df.iloc[:, 0]  # return first column
 
 
-def main(working_directory, comment, path):
+def evaluate(working_directory, comment, path):
     data = None
     error = None
     if comment:
-        data = classify([comment], working_directory)[0]
+        result = classify([comment], working_directory)[0]
+        # todo
+        model_image_base64 = "todo"
+        data = {
+            "result": result,
+            "image_base64": model_image_base64,
+        }
     else:
         try:
             comment_list = get_comments_from_path(path)
-            data = classify(comment_list, working_directory)
+            result = classify(comment_list, working_directory)
+            data = {
+                "result": result,
+                "image_base64": None,
+            }
         except Exception as e:
             error = str(e)
 
     print_output(data, error)
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser('Review classifier')
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument('-c', type=str)
-    group.add_argument('-p', type=str)
-    args = parser.parse_args()
-
-    main(sys.path[0], args.c, args.p)

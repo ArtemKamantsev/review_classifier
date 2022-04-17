@@ -30,18 +30,30 @@ Following commands should be run from 'analytics' folder.
 ## Run api_evaluate.py
 ### Recognize single string:
 ```
-.\venv\Scripts\python.exe .\api_evaluate.py -c "The best app!"
+.\venv\Scripts\python.exe .\api.py -v evaluate -c "The best app!"
 ```
 Output: single string ('NEGATIVE' or 'POSITIVE')
+Response example:
+```
+{"data": {"result": "POSITIVE", "image_base64": "todo"}, "error": null}
+```
 ### Recognize '....csv' file:
 ```
-.\venv\Scripts\python.exe .\api_evaluate.py -p path_to_file\file_name.csv
+.\venv\Scripts\python.exe .\api.py -v evaluate -p path_to_file\file_name.csv
 ```
 Output: array of strings (each equal to 'NEGATIVE' or 'POSITIVE')
+Response example:
+```
+{"data": {"result": ["POSITIVE", "NEGATIVE"], "image_base64": null}, "error": null}
+```
 ## Run api_train.py
 ```
-.\venv\Scripts\python.exe .\api_train.py
+.\venv\Scripts\python.exe .\api.py -v train
 {"max_depth":3, "criterion":"gini"}
 [{"text": "the worst app", "score": 1},{"text": "the best app", "score": 5}]
 ```
 Output: string with result of trained model evaluation metrics
+Response example:
+```
+{"data": {"result": "Model has been trained successfully!\nTested on train dataset of size: 2\nrecall: 1.0\nprecision: 1.0\nroc-auc: 1.0", "image_base64": "todo"}, "error": null}
+```

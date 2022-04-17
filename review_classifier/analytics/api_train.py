@@ -20,7 +20,7 @@ def parse_data(data_str='[{"text": "the worst app", "score": 1},{"text": "the be
     return df
 
 
-if __name__ == '__main__':
+def train():
     working_directory = sys.path[0]
     input_params = input()
     input_data = input()

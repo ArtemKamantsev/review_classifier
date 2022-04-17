@@ -79,6 +79,12 @@ def train_model(df, model_params, working_directory):
     recall = recall_score(y_test, predictions)
     precision = precision_score(y_test, predictions)
     roc_auc = roc_auc_score(y_test, prediction_probas[:, 1])
-    result = f'Model has been trained successfully!\nTested on {test_dataset_type} dataset of size: {x_test.shape[0]}\nrecall: {recall}\nprecision: {precision}\nroc-auc: {roc_auc}'
 
-    return result
+    # todo
+    model_image_base64 = "todo"
+    result_message = f'Model has been trained successfully!\nTested on {test_dataset_type} dataset of size: {x_test.shape[0]}\nrecall: {recall}\nprecision: {precision}\nroc-auc: {roc_auc}'
+
+    return {
+        'result': result_message,
+        'image_base64': model_image_base64,
+    }
