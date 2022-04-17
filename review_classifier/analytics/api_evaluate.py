@@ -17,14 +17,14 @@ classes_mapping = {
 
 def get_model_paths(working_directory):
     vectorizer_path = VECTORIZER_PATH_TEMPLATE.substitute(working_directory=working_directory)
-    vocabulary_path = VECTORIZER_PARAMS_PATH_TEMPLATE.substitute(working_directory=working_directory)
+    vectorizer_params_path = VECTORIZER_PARAMS_PATH_TEMPLATE.substitute(working_directory=working_directory)
     model_path = MODEL_PATH_TEMPLATE.substitute(working_directory=working_directory)
-    if not exists(vectorizer_path) or not exists(vocabulary_path) or not exists(model_path):
+    if not exists(vectorizer_path) or not exists(vectorizer_params_path) or not exists(model_path):
         vectorizer_path = VECTORIZER_DEFAULT_PATH_TEMPLATE.substitute(working_directory=working_directory)
-        vocabulary_path = VECTORIZER_PARAMS_DEFAULT_PATH_TEMPLATE.substitute(working_directory=working_directory)
+        vectorizer_params_path = VECTORIZER_PARAMS_DEFAULT_PATH_TEMPLATE.substitute(working_directory=working_directory)
         model_path = MODEL_DEFAULT_PATH_TEMPLATE.substitute(working_directory=working_directory)
 
-    return vectorizer_path, vocabulary_path, model_path
+    return vectorizer_path, vectorizer_params_path, model_path
 
 
 def classify(comment_list, working_directory):

@@ -3,7 +3,7 @@ from joblib import dump
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import recall_score, precision_score, roc_auc_score
 from sklearn.model_selection import train_test_split
-from sklearn.naive_bayes import MultinomialNB
+from sklearn.tree import DecisionTreeClassifier
 
 from service.constants import RANDOM_STATE, TEST_SET_SIZE, MIN_TEST_ITEMS_COUNT, VECTORIZER_PATH_TEMPLATE, \
     VECTORIZER_PARAMS_PATH_TEMPLATE, MODEL_PATH_TEMPLATE
@@ -11,8 +11,22 @@ from service.constants import RANDOM_STATE, TEST_SET_SIZE, MIN_TEST_ITEMS_COUNT,
 TEXT_COLUMN_KEY = 'text'
 SCORE_COLUMN_KEY = 'score'
 
+default_params = {
+    'criterion': 'gini',
+    'max_depth': 5,
+}
 
-def train_model(df, working_directory):
+
+def check_params(model_params):
+    """Ensure all keys from 'default_params' are present in 'model_params'"""
+    for key, value in default_params.items():
+        if key not in model_params:
+            model_params[key] = value
+
+    return model_params
+
+
+def train_model(df, model_params, working_directory):
     if TEXT_COLUMN_KEY not in df.columns or SCORE_COLUMN_KEY not in df.columns:
         raise Exception(f'Data should contain "{TEXT_COLUMN_KEY}" and "{SCORE_COLUMN_KEY}" columns')
 
@@ -27,13 +41,13 @@ def train_model(df, working_directory):
 
     min_df = min(round(len(df) * 0.0001), 1000)  # not greater when 1000
     vectorizer = CountVectorizer(
-                       strip_accents = 'unicode',
-                       lowercase = True,
-                       stop_words = 'english',
-                       token_pattern=r'(?u)(\b[a-z]{2,}\b|[\u263a-\U0001f645])',
-                       ngram_range=(1, 2),
-                       min_df = min_df,
-                       binary=True
+        strip_accents='unicode',
+        lowercase=True,
+        stop_words='english',
+        token_pattern=r'(?u)(\b[a-z]{2,}\b|[\u263a-\U0001f645])',
+        ngram_range=(1, 2),
+        min_df=min_df,
+        binary=True
     )
     dump(vectorizer, path_vectorizer)
 
@@ -52,7 +66,11 @@ def train_model(df, working_directory):
         x_train, x_test, y_train, y_test = text_vectorized, text_vectorized, labels, labels
         test_dataset_type = 'train'
 
-    model = MultinomialNB()
+    model_params = check_params(model_params)
+    model = DecisionTreeClassifier(
+        class_weight='balanced',
+        **model_params,
+    )
     model.fit(x_train, y_train)
     dump(model, path_model)
 
