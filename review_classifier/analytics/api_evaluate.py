@@ -41,35 +41,35 @@ def classify(comment_list, working_directory, create_images=True):
     comment_vectorized = vectorizer.transform(comment_list)
     prediction_list = model.predict(comment_vectorized)
 
-    result_image = None
-    if create_images and comment_vectorized.shape[0] > 0:
-        comment = comment_vectorized[0]
-        features = vocabulary_to_features(vectorizer.vocabulary_)
-        dot_data = export_graphviz(
-            model,
-            feature_names=features,
-            class_names=['Negavite', 'Positive'],
-            filled=True
-        )
+    result_images = []
+    if create_images:
+        for comment in comment_vectorized:
+            features = vocabulary_to_features(vectorizer.vocabulary_)
+            dot_data = export_graphviz(
+                model,
+                feature_names=features,
+                class_names=['Negavite', 'Positive'],
+                filled=True
+            )
 
-        graph = pydotplus.graph_from_dot_data(dot_data)
-        graph.del_node('"\\n"')
+            graph = pydotplus.graph_from_dot_data(dot_data)
+            graph.del_node('"\\n"')
 
-        decision_path = model.decision_path(comment)
+            decision_path = model.decision_path(comment)
 
-        for n, node_value in enumerate(decision_path.toarray()[0]):
-            if node_value == 0:
-                node = graph.get_node(str(n))[0]
-                node.set_fillcolor('white')
-            else:
-                node = graph.get_node(str(n))[0]
-                node.set_fillcolor('green')
+            for n, node_value in enumerate(decision_path.toarray()[0]):
+                if node_value == 0:
+                    node = graph.get_node(str(n))[0]
+                    node.set_fillcolor('white')
+                else:
+                    node = graph.get_node(str(n))[0]
+                    node.set_fillcolor('green')
 
-        graph.write_png(model_image_path)
+            graph.write_png(model_image_path)
 
-        result_image = base64.b64encode(open(model_image_path, "rb").read()).decode()
+            result_images.append(base64.b64encode(open(model_image_path, "rb").read()).decode())
 
-    return list(map(lambda p: classes_mapping[p], prediction_list)), result_image
+    return list(map(lambda p: classes_mapping[p], prediction_list)), result_images
 
 
 def get_comments_from_path(path):
@@ -88,11 +88,11 @@ def evaluate(working_directory, comment, path):
     data = None
     error = None
     if comment:
-        result_list, result_image = classify([comment], working_directory)
+        result_list, result_images = classify([comment], working_directory)
 
         data = {
             "result": result_list[0],
-            "image_base64": result_image,
+            "image_base64": result_images[0],
         }
     else:
         try:
