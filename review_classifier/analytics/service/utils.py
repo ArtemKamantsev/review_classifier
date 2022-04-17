@@ -16,3 +16,7 @@ def print_output(data, error):
     res_str = json.dumps(res)
 
     print(res_str)
+
+
+def vocabulary_to_features(vocabulary):
+    return list(map(lambda x: x[0], sorted(vocabulary.items(), key=lambda x: x[1])))

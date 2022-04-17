@@ -1,14 +1,15 @@
+import base64
 import numpy as np
+import pydotplus
 from joblib import dump
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import recall_score, precision_score, roc_auc_score
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, export_graphviz
-import pydotplus
-import base64
 
 from service.constants import RANDOM_STATE, TEST_SET_SIZE, MIN_TEST_ITEMS_COUNT, VECTORIZER_PATH_TEMPLATE, \
     VECTORIZER_PARAMS_PATH_TEMPLATE, MODEL_PATH_TEMPLATE, MODEL_IMAGE_TEMPLATE
+from service.utils import vocabulary_to_features
 
 TEXT_COLUMN_KEY = 'text'
 SCORE_COLUMN_KEY = 'score'
@@ -83,9 +84,10 @@ def train_model(df, model_params, working_directory):
     precision = precision_score(y_test, predictions)
     roc_auc = roc_auc_score(y_test, prediction_probas[:, 1])
 
+    features = vocabulary_to_features(vectorizer.vocabulary_)
     dot_data = export_graphviz(
         model,
-        feature_names=vectorizer.vocabulary_,
+        feature_names=features,
         class_names=['Negavite', 'Positive'],
         filled=True
     )
@@ -93,7 +95,7 @@ def train_model(df, model_params, working_directory):
 
     graph.del_node('"\\n"')
     graph.write_png(model_image_path)
-    model_image_base64 = base64.b64encode(open(model_image_path, "rb").read())
+    model_image_base64 = base64.b64encode(open(model_image_path, "rb").read()).decode()
 
     result_message = f'Model has been trained successfully!\nTested on {test_dataset_type} dataset of size: {x_test.shape[0]}\nrecall: {recall}\nprecision: {precision}\nroc-auc: {roc_auc}'
 

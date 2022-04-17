@@ -1,14 +1,16 @@
 from os.path import splitext, exists
-from sklearn.tree import export_graphviz
-import pandas as pd
-from joblib import load
-import pydotplus
+
 import base64
+import pandas as pd
+import pydotplus
+from joblib import load
+from sklearn.tree import export_graphviz
 
 from service.constants import VECTORIZER_PATH_TEMPLATE, VECTORIZER_PARAMS_PATH_TEMPLATE, MODEL_PATH_TEMPLATE, \
     VECTORIZER_DEFAULT_PATH_TEMPLATE, VECTORIZER_PARAMS_DEFAULT_PATH_TEMPLATE, MODEL_DEFAULT_PATH_TEMPLATE, \
     MODEL_IMAGE_TEMPLATE
 from service.utils import load_count_vectorizer, print_output
+from service.utils import vocabulary_to_features
 
 classes_mapping = {
     0: 'NEGATIVE',
@@ -39,34 +41,35 @@ def classify(comment_list, working_directory, create_images=True):
     comment_vectorized = vectorizer.transform(comment_list)
     prediction_list = model.predict(comment_vectorized)
 
-    result_images = []
-    if create_images:
-        for comment in comment_vectorized:
-            dot_data = export_graphviz(
-                model,
-                feature_names=vectorizer.vocabulary_,
-                class_names=['Negavite', 'Positive'],
-                filled=True
-            )
+    result_image = None
+    if create_images and comment_vectorized.shape[0] > 0:
+        comment = comment_vectorized[0]
+        features = vocabulary_to_features(vectorizer.vocabulary_)
+        dot_data = export_graphviz(
+            model,
+            feature_names=features,
+            class_names=['Negavite', 'Positive'],
+            filled=True
+        )
 
-            graph = pydotplus.graph_from_dot_data(dot_data)
-            graph.del_node('"\\n"')
+        graph = pydotplus.graph_from_dot_data(dot_data)
+        graph.del_node('"\\n"')
 
-            decision_path = model.decision_path(comment)
+        decision_path = model.decision_path(comment)
 
-            for n, node_value in enumerate(decision_path.toarray()[0]):
-                if node_value == 0:
-                    node = graph.get_node(str(n))[0]
-                    node.set_fillcolor('white')
-                else:
-                    node = graph.get_node(str(n))[0]
-                    node.set_fillcolor('green')
+        for n, node_value in enumerate(decision_path.toarray()[0]):
+            if node_value == 0:
+                node = graph.get_node(str(n))[0]
+                node.set_fillcolor('white')
+            else:
+                node = graph.get_node(str(n))[0]
+                node.set_fillcolor('green')
 
-            graph.write_png(model_image_path)
+        graph.write_png(model_image_path)
 
-            result_images.append(base64.b64encode(open(model_image_path, "rb").read()))
+        result_image = base64.b64encode(open(model_image_path, "rb").read()).decode()
 
-    return list(map(lambda p: classes_mapping[p], prediction_list)), result_images
+    return list(map(lambda p: classes_mapping[p], prediction_list)), result_image
 
 
 def get_comments_from_path(path):
@@ -85,18 +88,18 @@ def evaluate(working_directory, comment, path):
     data = None
     error = None
     if comment:
-        result, result_images = classify([comment], working_directory)[0]
+        result_list, result_image = classify([comment], working_directory)
 
         data = {
-            "result": result,
-            "image_base64": result_images[0],
+            "result": result_list[0],
+            "image_base64": result_image,
         }
     else:
         try:
             comment_list = get_comments_from_path(path)
-            result, result_images = classify(comment_list, working_directory, False)
+            result_list, _ = classify(comment_list, working_directory, False)
             data = {
-                "result": result,
+                "result": result_list,
                 "image_base64": None,
             }
         except Exception as e:
