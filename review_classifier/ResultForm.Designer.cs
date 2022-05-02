@@ -33,6 +33,11 @@ namespace review_classifier
             this.button1 = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.rbGini = new System.Windows.Forms.RadioButton();
+            this.rbEntropy = new System.Windows.Forms.RadioButton();
+            this.label1 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -76,12 +81,58 @@ namespace review_classifier
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(552, 176);
+            this.trackBar1.Maximum = 15;
+            this.trackBar1.Minimum = 1;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(278, 56);
+            this.trackBar1.TabIndex = 8;
+            this.trackBar1.Value = 1;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // rbGini
+            // 
+            this.rbGini.AutoSize = true;
+            this.rbGini.Checked = true;
+            this.rbGini.Location = new System.Drawing.Point(552, 238);
+            this.rbGini.Name = "rbGini";
+            this.rbGini.Size = new System.Drawing.Size(72, 30);
+            this.rbGini.TabIndex = 9;
+            this.rbGini.TabStop = true;
+            this.rbGini.Text = "gini";
+            this.rbGini.UseVisualStyleBackColor = true;
+            // 
+            // rbEntropy
+            // 
+            this.rbEntropy.AutoSize = true;
+            this.rbEntropy.Location = new System.Drawing.Point(552, 274);
+            this.rbEntropy.Name = "rbEntropy";
+            this.rbEntropy.Size = new System.Drawing.Size(113, 30);
+            this.rbEntropy.TabIndex = 10;
+            this.rbEntropy.Text = "entropy";
+            this.rbEntropy.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(550, 147);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(74, 26);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "label1";
+            // 
             // ResultForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
             this.ClientSize = new System.Drawing.Size(842, 614);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.rbEntropy);
+            this.Controls.Add(this.rbGini);
+            this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button1);
@@ -97,7 +148,9 @@ namespace review_classifier
             this.Text = "Train model";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ResultForm_FormClosing);
             this.Shown += new System.EventHandler(this.ResultForm_Shown);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -107,5 +160,9 @@ namespace review_classifier
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.RadioButton rbGini;
+        private System.Windows.Forms.RadioButton rbEntropy;
+        private System.Windows.Forms.Label label1;
     }
 }

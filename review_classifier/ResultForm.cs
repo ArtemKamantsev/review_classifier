@@ -127,6 +127,11 @@ namespace review_classifier
             Enabled = true;
         }
 
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            label1.Text = String.Format("Текущее значение: {0}", trackBar1.Value);
+        }
+
         private void SendRequest(string filename, string arguments)
         {
             string result;
