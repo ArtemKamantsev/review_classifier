@@ -53,6 +53,7 @@ namespace review_classifier
 
         private void button2_Click(object sender, EventArgs e)
         {
+
             Enabled = false;
 
             string resultus = "[";
@@ -160,6 +161,8 @@ namespace review_classifier
 
         private void StartPython(string row, string letter, string file)
         {
+            int number = int.Parse(trackBar1.Value.ToString());
+            string OneOfTwo = rbGini.Checked ? "gini" : "entropy";
             ProcessStartInfo start = new ProcessStartInfo();
 
             string curDir = Directory.GetCurrentDirectory();
@@ -168,7 +171,9 @@ namespace review_classifier
             start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
             string path = directoryInfo2.FullName + @"\analytics\" + file + ".py";
 
-            start.Arguments = string.Format("{0} -{1}", path, letter);
+            start.Arguments = string.Format("{0} -{1}", path, "v " + OneOfTwo );
+            //-v train
+           // {"max_depth":3, "criterion":"gini"}
             // -c - строка из текстового поля
             // -р - путь к файлу абсолютный
             // -d - данные от скрипта Димы
