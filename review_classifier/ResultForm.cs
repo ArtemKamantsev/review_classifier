@@ -67,7 +67,7 @@ namespace review_classifier
             resultus += "]";
 
             StartPython(
-            resultus, "d", "api");
+            "[{\"text\": \"the worst app\", \"score\": 1},{\"text\": \"the best app\", \"score\": 5}]", "d", "api");//resultus
 
             MessageBox.Show(res[0]);
 
@@ -168,12 +168,11 @@ namespace review_classifier
             string curDir = Directory.GetCurrentDirectory();
             DirectoryInfo directoryInfo = Directory.GetParent(curDir);
             DirectoryInfo directoryInfo2 = Directory.GetParent(directoryInfo.FullName);
-            start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
+            start.FileName = @"C:\Users\Andrey\AppData\Local\Programs\Python\Python38\python.exe";
             string path = directoryInfo2.FullName + @"\analytics\" + file + ".py";
-
+            
             start.Arguments = 
                 $"{path} -v train";
-                //string.Format($"{0} -v train {{\"max_depth\":{1}, \"criterion\":{2}}}", path, number, OneOfTwo);
             // -c - строка из текстового поля
             // -р - путь к файлу абсолютный
             // -d - данные от скрипта Димы
@@ -184,7 +183,7 @@ namespace review_classifier
             using (Process process = Process.Start(start))
             {
                 StreamWriter sq = process.StandardInput;
-                sq.WriteLine($"{{\"max_depth\":{number}, \"criterion\":{OneOfTwo}}}");
+                sq.WriteLine($"{{\"max_depth\":{number}, \"criterion\":\"{OneOfTwo}\"}}");
                 char[] charsToTrim = { '\n', ' ', '\r' };
                 row = row.Replace("\r", String.Empty);
                 row = row.Replace("\n", String.Empty);
@@ -199,7 +198,7 @@ namespace review_classifier
                 res.Add("Error: " + stuff.error.ToString());
             else
             {
-                res.Add(stuff.result.ToString());
+                res.Add(stuff.data.result.ToString());
                 if (stuff.image_base64 != null)
                 {
                     PictureForm picture = new PictureForm(stuff.image_base64.ToString());
