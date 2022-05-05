@@ -67,7 +67,7 @@ namespace review_classifier
             resultus += "]";
 
             StartPython(
-            resultus, "d", "api_train");
+            resultus, "d", "api.py");
 
             MessageBox.Show(res[0]);
 
@@ -171,7 +171,9 @@ namespace review_classifier
             start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
             string path = directoryInfo2.FullName + @"\analytics\" + file + ".py";
 
-            start.Arguments = string.Format("{0} -v train \n{\"max_depth\":{1}, \"criterion\":{2}}", path, number, OneOfTwo);
+            start.Arguments = 
+                $".\\venv\\Scripts\\python.exe {path} -v train";
+                //string.Format($"{0} -v train {{\"max_depth\":{1}, \"criterion\":{2}}}", path, number, OneOfTwo);
             // -c - строка из текстового поля
             // -р - путь к файлу абсолютный
             // -d - данные от скрипта Димы
@@ -182,6 +184,7 @@ namespace review_classifier
             using (Process process = Process.Start(start))
             {
                 StreamWriter sq = process.StandardInput;
+                sq.Write($"{{\"max_depth\":{number}, \"criterion\":{OneOfTwo}}}");
                 char[] charsToTrim = { '\n', ' ', '\r' };
                 row = row.Replace("\r", String.Empty);
                 row = row.Replace("\n", String.Empty);
