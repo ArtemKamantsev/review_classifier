@@ -67,7 +67,7 @@ namespace review_classifier
             resultus += "]";
 
             StartPython(
-            resultus, "d", "api.py");
+            resultus, "d", "api");
 
             MessageBox.Show(res[0]);
 

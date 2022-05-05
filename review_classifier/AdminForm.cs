@@ -21,7 +21,7 @@ namespace review_classifier
             Enabled = false;
             
             res = new List<string>();
-            StartPython(textBox1.Text, "c", "api_evaluate");
+            StartPython(textBox1.Text, "c", "api");
 
             if (res[0].Contains("Error"))
                 MessageBox.Show(res[0]);
