@@ -171,9 +171,7 @@ namespace review_classifier
             start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
             string path = directoryInfo2.FullName + @"\analytics\" + file + ".py";
 
-            start.Arguments = string.Format("{0} -v train {\"max_depth\":{1}, \"criterion\":{2}}", path, number, OneOfTwo);
-            //-v train
-           // {"max_depth":3, "criterion":"gini"}
+            start.Arguments = string.Format("{0} -v train \\n{\"max_depth\":{1}, \"criterion\":{2}}", path, number, OneOfTwo);
             // -c - строка из текстового поля
             // -р - путь к файлу абсолютный
             // -d - данные от скрипта Димы
