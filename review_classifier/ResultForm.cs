@@ -172,7 +172,7 @@ namespace review_classifier
             string path = directoryInfo2.FullName + @"\analytics\" + file + ".py";
 
             start.Arguments = 
-                $".\\venv\\Scripts\\python.exe {path} -v train";
+                $"{path} -v train";
                 //string.Format($"{0} -v train {{\"max_depth\":{1}, \"criterion\":{2}}}", path, number, OneOfTwo);
             // -c - строка из текстового поля
             // -р - путь к файлу абсолютный
@@ -184,7 +184,7 @@ namespace review_classifier
             using (Process process = Process.Start(start))
             {
                 StreamWriter sq = process.StandardInput;
-                sq.Write($"{{\"max_depth\":{number}, \"criterion\":{OneOfTwo}}}");
+                sq.WriteLine($"{{\"max_depth\":{number}, \"criterion\":{OneOfTwo}}}");
                 char[] charsToTrim = { '\n', ' ', '\r' };
                 row = row.Replace("\r", String.Empty);
                 row = row.Replace("\n", String.Empty);
