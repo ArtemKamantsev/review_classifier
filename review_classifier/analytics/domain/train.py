@@ -1,6 +1,6 @@
 import base64
 import numpy as np
-import pydotplus
+# import pydotplus
 from joblib import dump
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import recall_score, precision_score, roc_auc_score
@@ -84,22 +84,22 @@ def train_model(df, model_params, working_directory):
     precision = precision_score(y_test, predictions)
     roc_auc = roc_auc_score(y_test, prediction_probas[:, 1])
 
-    features = vocabulary_to_features(vectorizer.vocabulary_)
-    dot_data = export_graphviz(
-        model,
-        feature_names=features,
-        class_names=['Negavite', 'Positive'],
-        filled=True
-    )
-    graph = pydotplus.graph_from_dot_data(dot_data)
-
-    graph.del_node('"\\n"')
-    graph.write_png(model_image_path)
-    model_image_base64 = base64.b64encode(open(model_image_path, "rb").read()).decode()
+    # features = vocabulary_to_features(vectorizer.vocabulary_)
+    # dot_data = export_graphviz(
+    #     model,
+    #     feature_names=features,
+    #     class_names=['Negavite', 'Positive'],
+    #     filled=True
+    # )
+    # graph = pydotplus.graph_from_dot_data(dot_data)
+    #
+    # graph.del_node('"\\n"')
+    # graph.write_png(model_image_path)
+    # model_image_base64 = base64.b64encode(open(model_image_path, "rb").read()).decode()
 
     result_message = f'Model has been trained successfully!\nTested on {test_dataset_type} dataset of size: {x_test.shape[0]}\nrecall: {recall}\nprecision: {precision}\nroc-auc: {roc_auc}'
 
     return {
         'result': result_message,
-        'image_base64': model_image_base64,
+        'image_base64': '',
     }

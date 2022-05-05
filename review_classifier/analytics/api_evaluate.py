@@ -2,7 +2,7 @@ from os.path import splitext, exists
 
 import base64
 import pandas as pd
-import pydotplus
+# import pydotplus
 from joblib import load
 from sklearn.tree import export_graphviz
 
@@ -42,32 +42,32 @@ def classify(comment_list, working_directory, create_images=True):
     prediction_list = model.predict(comment_vectorized)
 
     result_images = []
-    if create_images:
-        for comment in comment_vectorized:
-            features = vocabulary_to_features(vectorizer.vocabulary_)
-            dot_data = export_graphviz(
-                model,
-                feature_names=features,
-                class_names=['Negavite', 'Positive'],
-                filled=True
-            )
-
-            graph = pydotplus.graph_from_dot_data(dot_data)
-            graph.del_node('"\\n"')
-
-            decision_path = model.decision_path(comment)
-
-            for n, node_value in enumerate(decision_path.toarray()[0]):
-                if node_value == 0:
-                    node = graph.get_node(str(n))[0]
-                    node.set_fillcolor('white')
-                else:
-                    node = graph.get_node(str(n))[0]
-                    node.set_fillcolor('green')
-
-            graph.write_png(model_image_path)
-
-            result_images.append(base64.b64encode(open(model_image_path, "rb").read()).decode())
+    # if create_images:
+    #     for comment in comment_vectorized:
+    #         features = vocabulary_to_features(vectorizer.vocabulary_)
+    #         dot_data = export_graphviz(
+    #             model,
+    #             feature_names=features,
+    #             class_names=['Negavite', 'Positive'],
+    #             filled=True
+    #         )
+    #
+    #         graph = pydotplus.graph_from_dot_data(dot_data)
+    #         graph.del_node('"\\n"')
+    #
+    #         decision_path = model.decision_path(comment)
+    #
+    #         for n, node_value in enumerate(decision_path.toarray()[0]):
+    #             if node_value == 0:
+    #                 node = graph.get_node(str(n))[0]
+    #                 node.set_fillcolor('white')
+    #             else:
+    #                 node = graph.get_node(str(n))[0]
+    #                 node.set_fillcolor('green')
+    #
+    #         graph.write_png(model_image_path)
+    #
+    #         result_images.append(base64.b64encode(open(model_image_path, "rb").read()).decode())
 
     return list(map(lambda p: classes_mapping[p], prediction_list)), result_images
 
