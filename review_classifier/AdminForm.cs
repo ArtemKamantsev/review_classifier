@@ -76,7 +76,7 @@ namespace review_classifier
             start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
             string path = directoryInfo2.FullName + @"\analytics\" + file + ".py";
 
-            start.Arguments = string.Format("{0} -{2} \"{1}\"", path, row, letter);
+            start.Arguments = string.Format("{0}  -v evaluate -{2} \"{1}\"", path, row, letter);
             // -c - строка из текстового поля
             // -р - путь к файлу абсолютный
             // -d - данные от скрипта Димы
