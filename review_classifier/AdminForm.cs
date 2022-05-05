@@ -91,7 +91,15 @@ namespace review_classifier
 
             if (stuff.data == null)
                 res.Add("Error: " + stuff.error.ToString());
-            else res.Add(stuff.data.ToString());
+            else
+            {
+                res.Add(stuff.result.ToString());
+                if (stuff.image_base64 != null)
+                {
+                    PictureForm picture = new PictureForm(stuff.image_base64.ToString());
+                    picture.Show();
+                }
+            }
         }
 
         private void AdminForm_FormClosing(object sender, FormClosingEventArgs e)

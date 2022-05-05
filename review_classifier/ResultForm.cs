@@ -171,14 +171,14 @@ namespace review_classifier
             start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
             string path = directoryInfo2.FullName + @"\analytics\" + file + ".py";
 
-            start.Arguments = string.Format("{0} -v train \\n{\"max_depth\":{1}, \"criterion\":{2}}", path, number, OneOfTwo);
+            start.Arguments = string.Format("{0} -v train \n{\"max_depth\":{1}, \"criterion\":{2}}", path, number, OneOfTwo);
             // -c - строка из текстового поля
             // -р - путь к файлу абсолютный
             // -d - данные от скрипта Димы
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             start.RedirectStandardInput = true;
-            string result;
+            string result_t;
             using (Process process = Process.Start(start))
             {
                 StreamWriter sq = process.StandardInput;
@@ -187,14 +187,22 @@ namespace review_classifier
                 row = row.Replace("\n", String.Empty);
                 sq.WriteLine(row);
                 using (StreamReader reader = process.StandardOutput)
-                    result = reader.ReadToEnd();
+                    result_t = reader.ReadToEnd();
             }
 
-            dynamic stuff = JsonConvert.DeserializeObject(result);
-
+            dynamic stuff = JsonConvert.DeserializeObject(result_t);
+        
             if (stuff.data == null)
                 res.Add("Error: " + stuff.error.ToString());
-            else res.Add(stuff.data.ToString());
+            else
+            {
+                res.Add(stuff.result.ToString());
+                if (stuff.image_base64 != null)
+                {
+                    PictureForm picture = new PictureForm(stuff.image_base64.ToString());
+                    picture.Show();
+                }
+            }
         }
 
         private void SaveData(List<string> revs)
