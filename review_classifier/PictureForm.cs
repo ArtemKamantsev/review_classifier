@@ -7,17 +7,29 @@ namespace review_classifier
 {
     public partial class PictureForm : Form
     {
-        string ImageT;
+        string ImageT, TextT;
+        bool flag = false;
 
         public PictureForm(string text)
         {
             InitializeComponent();
             ImageT = text;
         }
+        
+        public PictureForm( string file, string text)
+        {
+            InitializeComponent();
+            ImageT = file;
+            TextT = text;
+            flag = true;
+        }
 
         private void PictureForm_Shown(object sender, EventArgs e)
         {
-            ShowMyImage(ImageT);
+            if (flag)
+                ShowMyImageAndText(ImageT, TextT);
+            else
+                ShowMyImage(ImageT);
         }
 
         public void ShowMyImage(string file)
@@ -40,7 +52,11 @@ namespace review_classifier
 
         public void ShowMyImageAndText(string file, string text)
         {
-
+            pictureBox1.Height = 357;
+            Image image = Base64ToImage(file);
+            pictureBox1.Image = image;
+            textBox1.Text = text;
+            textBox1.Visible = true;
         }
     }
 }
