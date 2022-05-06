@@ -199,7 +199,7 @@ namespace review_classifier
             else
             {
                 res.Add(stuff.data.result.ToString());
-                if (stuff.data.image_base64 != null)
+                if (stuff.data.image_base64 != null && stuff.data.image_base64 != "")
                 {
                     PictureForm picture = new PictureForm(stuff.data.image_base64.ToString());
                     picture.Show();
