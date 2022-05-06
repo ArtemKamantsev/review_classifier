@@ -92,7 +92,7 @@ def evaluate(working_directory, comment, path):
 
         data = {
             "result": result_list[0],
-            "image_base64": result_images[0],
+            "image_base64": "",
         }
     else:
         try:
