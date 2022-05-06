@@ -168,7 +168,7 @@ namespace review_classifier
             string curDir = Directory.GetCurrentDirectory();
             DirectoryInfo directoryInfo = Directory.GetParent(curDir);
             DirectoryInfo directoryInfo2 = Directory.GetParent(directoryInfo.FullName);
-            start.FileName = @"C:\Users\Andrey\AppData\Local\Programs\Python\Python38\python.exe";
+            start.FileName = directoryInfo2.FullName + @"\analytics\venv\Scripts\python.exe";
             string path = directoryInfo2.FullName + @"\analytics\" + file + ".py";
             
             start.Arguments = 
@@ -199,7 +199,7 @@ namespace review_classifier
             else
             {
                 res.Add(stuff.data.result.ToString());
-                if (stuff.image_base64 != null)
+                if (stuff.data.image_base64 != null)
                 {
                     PictureForm picture = new PictureForm(stuff.image_base64.ToString());
                     picture.Show();
@@ -223,3 +223,4 @@ namespace review_classifier
         }
     }
 }
+// analitics\models\?.png

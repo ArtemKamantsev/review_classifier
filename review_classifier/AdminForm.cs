@@ -93,8 +93,8 @@ namespace review_classifier
                 res.Add("Error: " + stuff.error.ToString());
             else
             {
-                res.Add(stuff.result.ToString());
-                if (stuff.image_base64 != null)
+                res.Add(stuff.data.result.ToString());
+                if (stuff.data.image_base64 != null)
                 {
                     PictureForm picture = new PictureForm(stuff.image_base64.ToString());
                     picture.Show();
