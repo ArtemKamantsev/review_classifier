@@ -69,7 +69,7 @@ namespace review_classifier
             StartPython(
             "[{\"text\": \"the worst app\", \"score\": 1},{\"text\": \"the best app\", \"score\": 5}]", "d", "api");//resultus
 
-            MessageBox.Show(res[0]);
+            //MessageBox.Show(res[0]);
 
             Enabled = true;
         }
@@ -199,11 +199,12 @@ namespace review_classifier
             else
             {
                 res.Add(stuff.data.result.ToString());
-                if (stuff.data.image_base64 != null && stuff.data.image_base64 != "")
-                {
-                    PictureForm picture = new PictureForm(stuff.data.image_base64.ToString());
+                //if (stuff.data.image_base64 != null && stuff.data.image_base64 != "")
+                //{
+                    PictureForm picture = new PictureForm(stuff.data.image_base64.ToString(),
+                        stuff.data.result.ToString());
                     picture.Show();
-                }
+                //}
             }
         }
 

@@ -34,8 +34,11 @@ namespace review_classifier
 
         public void ShowMyImage(string file)
         {
-            Image MyImage = Base64ToImage(file);
-            pictureBox1.Image = MyImage;
+            if (file != null && file != "")
+            {
+                Image MyImage = Base64ToImage(file);
+                pictureBox1.Image = MyImage;
+            }
         }
 
         public Image Base64ToImage(string base64String)
@@ -53,8 +56,11 @@ namespace review_classifier
         public void ShowMyImageAndText(string file, string text)
         {
             pictureBox1.Height = 357;
-            Image image = Base64ToImage(file);
-            pictureBox1.Image = image;
+            if (file != null && file != "")
+            {
+                Image image = Base64ToImage(file);
+                pictureBox1.Image = image;
+            }
             textBox1.Text = text;
             textBox1.Visible = true;
         }
