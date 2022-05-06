@@ -37,5 +37,10 @@ namespace review_classifier
                 return image;
             }
         }
+
+        public void ShowMyImageAndText(string file, string text)
+        {
+
+        }
     }
 }
