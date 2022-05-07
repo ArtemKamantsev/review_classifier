@@ -42,7 +42,7 @@ namespace review_classifier
 
             Enabled = false;
 
-            StartPython(filename, "p", "api_evaluate");
+            StartPython(filename, "p", "api");
 
             if (res[0].Contains("Error"))
                 MessageBox.Show(res[0]);
@@ -93,11 +93,11 @@ namespace review_classifier
             else
             {
                 res.Add(stuff.data.result.ToString());
-                //if (stuff.data.image_base64 != null && stuff.data.image_base64 != "")
-                //{
+                if (stuff.data.image_base64 != null && stuff.data.image_base64 != "")
+                {
                     PictureForm picture = new PictureForm(stuff.data.image_base64.ToString());
                     picture.Show();
-                //}
+                }
             }
         }
 
