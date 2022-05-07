@@ -66,8 +66,7 @@ namespace review_classifier
             }
             resultus += "]";
 
-            StartPython(
-            "[{\"text\": \"the worst app\", \"score\": 1},{\"text\": \"the best app\", \"score\": 5}]", "d", "api");//resultus
+            StartPython(resultus, "d", "api");//resultus
 
             //MessageBox.Show(res[0]);
 
