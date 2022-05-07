@@ -87,22 +87,22 @@ def get_comments_from_path(path):
 def evaluate(working_directory, comment, path):
     data = None
     error = None
-    if comment:
-        result_list, result_images = classify([comment], working_directory)
+    try:
+        if comment:
+            result_list, result_images = classify([comment], working_directory)
 
-        data = {
-            "result": result_list[0],
-            "image_base64": "",
-        }
-    else:
-        try:
+            data = {
+                "result": result_list[0],
+                "image_base64": result_images[0] if len(result_images) > 0 else "",
+            }
+        else:
             comment_list = get_comments_from_path(path)
             result_list, _ = classify(comment_list, working_directory, False)
             data = {
                 "result": result_list,
                 "image_base64": None,
             }
-        except Exception as e:
-            error = str(e)
+    except Exception as e:
+        error = str(e)
 
     print_output(data, error)
