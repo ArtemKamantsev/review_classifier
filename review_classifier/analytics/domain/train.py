@@ -97,7 +97,7 @@ def train_model(df, model_params, working_directory):
     # graph.write_png(model_image_path)
     # model_image_base64 = base64.b64encode(open(model_image_path, "rb").read()).decode()
 
-    result_message = f'Model has been trained successfully!\nTested on {test_dataset_type} dataset of size: {x_test.shape[0]}\nrecall: {recall}\nprecision: {precision}\nroc-auc: {roc_auc}'
+    result_message = f'Model has been trained successfully! \nTested on {test_dataset_type} dataset of size: {x_test.shape[0]}. \nRecall: {recall} \nPrecision: {precision} \nRoc-Auc: {roc_auc}.'
 
     return {
         'result': result_message,
