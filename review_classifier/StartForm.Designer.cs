@@ -35,7 +35,7 @@ namespace review_classifier
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 266);
+            this.button1.Location = new System.Drawing.Point(317, 266);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(245, 33);
             this.button1.TabIndex = 0;
@@ -45,7 +45,7 @@ namespace review_classifier
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(317, 266);
+            this.button2.Location = new System.Drawing.Point(12, 266);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(245, 33);
             this.button2.TabIndex = 1;
@@ -57,11 +57,11 @@ namespace review_classifier
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (255)))), ((int) (((byte) (224)))), ((int) (((byte) (192)))));
             this.ClientSize = new System.Drawing.Size(574, 311);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Margin = new System.Windows.Forms.Padding(5);
             this.MaximizeBox = false;
@@ -69,9 +69,9 @@ namespace review_classifier
             this.Name = "StartForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Menu";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.StartForm_FormClosing);
             this.ResumeLayout(false);
-
         }
 
         #endregion
