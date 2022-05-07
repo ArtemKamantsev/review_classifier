@@ -70,8 +70,6 @@ namespace review_classifier
                     textBox1.Text += Environment.NewLine;
                 }
             }
-
-            textBox1.Text = text;
             textBox1.Visible = true;
         }
     }
