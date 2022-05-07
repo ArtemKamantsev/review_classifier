@@ -54,9 +54,6 @@ namespace review_classifier
                 for (int i = 0; i < stuff.Count; i++)
                     res.Add(stuff[i].ToString());
 
-                //if (res[0].Contains("Error"))
-                //    MessageBox.Show(res[0]);
-                //else
                 for (int i = 0; i < res.Count; i++)
                     listBox1.Items.Add(res[i]);
             }
