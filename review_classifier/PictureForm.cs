@@ -39,6 +39,8 @@ namespace review_classifier
                 Image MyImage = Base64ToImage(file);
                 pictureBox1.Image = MyImage;
             }
+            else
+                ShowImage();
         }
 
         public Image Base64ToImage(string base64String)
@@ -61,6 +63,8 @@ namespace review_classifier
                 Image image = Base64ToImage(file);
                 pictureBox1.Image = image;
             }
+            else
+                ShowImage();
             string [] Texts = text.Split('\n');
             for (int i = 0; i < Texts.Length; i++)
             {
@@ -71,6 +75,16 @@ namespace review_classifier
                 }
             }
             textBox1.Visible = true;
+        }
+
+        private void ShowImage()
+        {
+            string curDir = Directory.GetCurrentDirectory();
+            DirectoryInfo directoryInfo = Directory.GetParent(curDir);
+            DirectoryInfo directoryInfo2 = Directory.GetParent(directoryInfo.FullName);
+            string path = directoryInfo2.FullName + @"\analytics\models\model_image.png";
+
+            pictureBox1.Image = Image.FromFile(path);
         }
     }
 }
