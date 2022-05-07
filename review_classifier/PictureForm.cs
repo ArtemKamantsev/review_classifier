@@ -61,6 +61,16 @@ namespace review_classifier
                 Image image = Base64ToImage(file);
                 pictureBox1.Image = image;
             }
+            string [] Texts = text.Split('\n');
+            for (int i = 0; i < Texts.Length; i++)
+            {
+                textBox1.Text += Texts[i];
+                if (i != Texts.Length - 1)
+                {
+                    textBox1.Text += Environment.NewLine;
+                }
+            }
+
             textBox1.Text = text;
             textBox1.Visible = true;
         }
