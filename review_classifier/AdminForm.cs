@@ -79,6 +79,8 @@ namespace review_classifier
             // -d - данные от скрипта Димы
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
+            start.CreateNoWindow = true;
+            start.WindowStyle = ProcessWindowStyle.Hidden;
             string result;
             using (Process process = Process.Start(start))
                 using (StreamReader reader = process.StandardOutput)

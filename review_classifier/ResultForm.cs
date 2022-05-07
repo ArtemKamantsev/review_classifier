@@ -178,6 +178,8 @@ namespace review_classifier
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             start.RedirectStandardInput = true;
+            start.CreateNoWindow = true;
+            start.WindowStyle = ProcessWindowStyle.Hidden;
             string result_t;
             using (Process process = Process.Start(start))
             {
