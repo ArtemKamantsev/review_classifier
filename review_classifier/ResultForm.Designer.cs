@@ -37,7 +37,7 @@ namespace review_classifier
             this.rbGini = new System.Windows.Forms.RadioButton();
             this.rbEntropy = new System.Windows.Forms.RadioButton();
             this.label1 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -119,15 +119,15 @@ namespace review_classifier
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(550, 147);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(237, 26);
+            this.label1.Size = new System.Drawing.Size(149, 26);
             this.label1.TabIndex = 11;
-            this.label1.Text = "Текущее значение: 1";
+            this.label1.Text = "Max depth: 1";
             // 
             // ResultForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (255)))), ((int) (((byte) (224)))), ((int) (((byte) (192)))));
             this.ClientSize = new System.Drawing.Size(842, 614);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.rbEntropy);
@@ -137,7 +137,7 @@ namespace review_classifier
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
-            this.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Margin = new System.Windows.Forms.Padding(5);
             this.MaximizeBox = false;
@@ -148,10 +148,9 @@ namespace review_classifier
             this.Text = "Train model";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ResultForm_FormClosing);
             this.Shown += new System.EventHandler(this.ResultForm_Shown);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize) (this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

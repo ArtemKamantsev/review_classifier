@@ -129,7 +129,7 @@ namespace review_classifier
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            label1.Text = String.Format("Текущее значение: {0}", trackBar1.Value);
+            label1.Text = String.Format("Max depth: {0}", trackBar1.Value);
         }
 
         private void SendRequest(string filename, string arguments)
