@@ -38,9 +38,9 @@ namespace review_classifier
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(317, 266);
+            this.button1.Location = new System.Drawing.Point(250, 266);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(245, 33);
+            this.button1.Size = new System.Drawing.Size(180, 33);
             this.button1.TabIndex = 0;
             this.button1.Text = "Evaluate model";
             this.button1.UseVisualStyleBackColor = true;
@@ -50,7 +50,7 @@ namespace review_classifier
             // 
             this.button2.Location = new System.Drawing.Point(12, 266);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(245, 33);
+            this.button2.Size = new System.Drawing.Size(180, 33);
             this.button2.TabIndex = 1;
             this.button2.Text = "Train model";
             this.button2.UseVisualStyleBackColor = true;
@@ -61,7 +61,7 @@ namespace review_classifier
             this.pictureBox1.Image = ((System.Drawing.Image) (resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(12, 12);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(550, 228);
+            this.pictureBox1.Size = new System.Drawing.Size(418, 228);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
@@ -71,7 +71,7 @@ namespace review_classifier
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int) (((byte) (255)))), ((int) (((byte) (224)))), ((int) (((byte) (192)))));
-            this.ClientSize = new System.Drawing.Size(574, 311);
+            this.ClientSize = new System.Drawing.Size(439, 311);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
